@@ -39,6 +39,26 @@ async function deletar(req,res){
         return res.status(500).json(e)
     })
 }
+async function deletar1(req,res){
+    try{
+        const filme = await Filme.findByIdAndDelete(req.params.id);
+        if(!filme) res.status(404).send("Nao achei o item");
+        res.status(200).send();
+    }catch(e){
+        res.status(500).send(e);
+    }
+}
+
+async function atualizar(req,res){
+    const filme = new Filme(req.body)
+    try{
+        await Filme.findByIdAndUpdate(req.params.id,req.body);
+        await Filme.save();
+        res.send(filme)
+    }catch(e){
+        res.status(500).send(e)
+    }
+}
 
 
-module.exports = { listar, criar, deletar };
+module.exports = { listar, criar, deletar, deletar1, atualizar };
